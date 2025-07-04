@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculator Rețineri + Calculator Simplu</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f4; }
+    h2 { color: #333; }
+    label { display: block; margin-top: 20px; }
+    input { padding: 8px; width: 100%; max-width: 300px; margin-top: 5px; }
+    button { margin-top: 15px; padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .result { margin-top: 20px; font-weight: bold; }
+    hr { margin: 40px 0; }
+  </style>
+</head>
+<body>
+
+  <h2>Calculator Rețineri (8% și 19% din 8%)</h2>
+
+  <label for="vanzare">Suma vânzare (X):</label>
+  <input type="number" id="vanzare" placeholder="Ex: 248">
+
+  <button onclick="calculeazaFinal()">Calculează suma finală</button>
+  <div class="result" id="rezultatFinal"></div>
+
+  <label for="net">Suma netă dorită:</label>
+  <input type="number" id="net" placeholder="Ex: 224.4">
+
+  <button onclick="calculeazaInvers()">Calculează suma necesară la vânzare</button>
+  <div class="result" id="rezultatInvers"></div>
+
+  <hr>
+
+  <h2>🧮 Calculator Simplu</h2>
+
+  <label for="expr">Introdu o expresie matematică:</label>
+  <input type="text" id="expr" placeholder="Ex: 12 + 5 * (3 - 1)">
+
+  <button onclick="calculeazaExpresie()">Calculează</button>
+  <div class="result" id="rezultatExpresie"></div>
+
+  <script>
+    function calculeazaFinal() {
+      const x = parseFloat(document.getElementById("vanzare").value);
+      if (isNaN(x)) return;
+      const sumaFinala = (0.9048 * x).toFixed(2);
+      document.getElementById("rezultatFinal").innerText = `Suma finală: ${sumaFinala} lei`;
+    }
+
+    function calculeazaInvers() {
+      const net = parseFloat(document.getElementById("net").value);
+      if (isNaN(net)) return;
+      const sumaVanzare = (net / 0.9048).toFixed(2);
+      document.getElementById("rezultatInvers").innerText = `Trebuie să vinzi cu: ${sumaVanzare} lei`;
+    }
+
+    function calculeazaExpresie() {
+      const expr = document.getElementById("expr").value;
+      try {
+        const rezultat = eval(expr);
+        document.getElementById("rezultatExpresie").innerText = `Rezultat: ${rezultat}`;
+      } catch (e) {
+        document.getElementById("rezultatExpresie").innerText = "Expresie invalidă!";
+      }
+    }
+  </script>
+
+</body>
+</html>
