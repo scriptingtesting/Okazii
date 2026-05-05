@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Calculator Rețineri + Calculator Simplu</title>
+  <title>Calculator Rețineri + Calculatoare</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f4; }
     h2 { color: #333; }
     label { display: block; margin-top: 20px; }
     input { padding: 8px; width: 100%; max-width: 300px; margin-top: 5px; }
-    button { margin-top: 15px; padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+    button { margin-top: 10px; margin-right: 5px; padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
     button:hover { background: #0056b3; }
-    .result { margin-top: 20px; font-weight: bold; }
+    .result { margin-top: 10px; font-weight: bold; }
     hr { margin: 40px 0; }
   </style>
 </head>
@@ -21,25 +21,45 @@
 
   <label for="vanzare">Suma vânzare (X):</label>
   <input type="number" id="vanzare" placeholder="Ex: 248">
-
   <button onclick="calculeazaFinal()">Calculează suma finală</button>
   <div class="result" id="rezultatFinal"></div>
 
   <label for="net">Suma netă dorită:</label>
   <input type="number" id="net" placeholder="Ex: 224.4">
-
   <button onclick="calculeazaInvers()">Calculează suma necesară la vânzare</button>
   <div class="result" id="rezultatInvers"></div>
 
   <hr>
 
-  <h2>🧮 Calculator Simplu</h2>
+  <h2>🧮 Calculator Simplu (fără eval)</h2>
 
   <label for="expr">Introdu o expresie matematică:</label>
   <input type="text" id="expr" placeholder="Ex: 12 + 5 * (3 - 1)">
-
   <button onclick="calculeazaExpresie()">Calculează</button>
   <div class="result" id="rezultatExpresie"></div>
+
+  <hr>
+
+  <h2>📊 Calculator Procente</h2>
+
+  <label>Procent (%) dintr-o sumă:</label>
+  <input type="number" id="proc1" placeholder="Ex: 20">
+  <input type="number" id="nr1" placeholder="Ex: 150">
+  <button onclick="calcProcDin()">Calculează</button>
+  <div class="result" id="rezProc1"></div>
+
+  <label>Cât la sută reprezintă X din Y:</label>
+  <input type="number" id="nr2" placeholder="Ex: 30">
+  <input type="number" id="nr3" placeholder="Ex: 150">
+  <button onclick="calcProcCat()">Calculează</button>
+  <div class="result" id="rezProc2"></div>
+
+  <label>Adaugă / Scade procent dintr-o sumă:</label>
+  <input type="number" id="nr4" placeholder="Ex: 100">
+  <input type="number" id="proc2" placeholder="Ex: 15">
+  <button onclick="adaugaProc()">Adaugă</button>
+  <button onclick="scadeProc()">Scade</button>
+  <div class="result" id="rezProc3"></div>
 
   <script>
     function calculeazaFinal() {
@@ -56,14 +76,54 @@
       document.getElementById("rezultatInvers").innerText = `Trebuie să vinzi cu: ${sumaVanzare} lei`;
     }
 
+    // Calculator sigur (fără eval)
     function calculeazaExpresie() {
       const expr = document.getElementById("expr").value;
-      try {
-        const rezultat = eval(expr);
-        document.getElementById("rezultatExpresie").innerText = `Rezultat: ${rezultat}`;
-      } catch (e) {
+
+      // Validare: doar cifre și operatori matematici
+      if (!/^[0-9+\-*/(). ]+$/.test(expr)) {
         document.getElementById("rezultatExpresie").innerText = "Expresie invalidă!";
+        return;
       }
+
+      try {
+        const rezultat = Function('"use strict"; return (' + expr + ')')();
+        document.getElementById("rezultatExpresie").innerText = `Rezultat: ${rezultat}`;
+      } catch {
+        document.getElementById("rezultatExpresie").innerText = "Eroare la calcul!";
+      }
+    }
+
+    function calcProcDin() {
+      const p = parseFloat(document.getElementById("proc1").value);
+      const n = parseFloat(document.getElementById("nr1").value);
+      if (isNaN(p) || isNaN(n)) return;
+      const rez = (p / 100) * n;
+      document.getElementById("rezProc1").innerText = `${p}% din ${n} = ${rez.toFixed(2)}`;
+    }
+
+    function calcProcCat() {
+      const x = parseFloat(document.getElementById("nr2").value);
+      const y = parseFloat(document.getElementById("nr3").value);
+      if (isNaN(x) || isNaN(y) || y === 0) return;
+      const rez = (x / y) * 100;
+      document.getElementById("rezProc2").innerText = `${x} este ${rez.toFixed(2)}% din ${y}`;
+    }
+
+    function adaugaProc() {
+      const n = parseFloat(document.getElementById("nr4").value);
+      const p = parseFloat(document.getElementById("proc2").value);
+      if (isNaN(n) || isNaN(p)) return;
+      const rez = n + (n * p / 100);
+      document.getElementById("rezProc3").innerText = `Rezultat: ${rez.toFixed(2)}`;
+    }
+
+    function scadeProc() {
+      const n = parseFloat(document.getElementById("nr4").value);
+      const p = parseFloat(document.getElementById("proc2").value);
+      if (isNaN(n) || isNaN(p)) return;
+      const rez = n - (n * p / 100);
+      document.getElementById("rezProc3").innerText = `Rezultat: ${rez.toFixed(2)}`;
     }
   </script>
 
