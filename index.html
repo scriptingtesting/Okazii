@@ -3,501 +3,156 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Calculatoare + Contor Caractere</title>
-
+  <title>Calculator Rețineri + Calculatoare</title>
   <style>
-    *{
-      box-sizing:border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f4f4f4;
-      padding: 30px;
-    }
-
-    .layout{
-      display:flex;
-      gap:30px;
-      align-items:flex-start;
-    }
-
-    .left{
-      flex:1;
-      background:white;
-      padding:25px;
-      border-radius:15px;
-      box-shadow:0 0 15px rgba(0,0,0,0.1);
-    }
-
-    .right{
-      width:380px;
-      background:#111827;
-      color:white;
-      padding:25px;
-      border-radius:15px;
-      position:sticky;
-      top:20px;
-      box-shadow:0 0 15px rgba(0,0,0,0.2);
-    }
-
-    h2 {
-      color: #333;
-      margin-top: 40px;
-    }
-
-    .right h2{
-      color:white;
-      margin-top:0;
-      text-align:center;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    input {
-      padding: 10px;
-      width: 100%;
-      max-width: 320px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      margin-top: 10px;
-      margin-right: 5px;
-      padding: 10px 20px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #0056b3;
-    }
-
-    .reset {
-      background: #dc3545;
-    }
-
-    .reset:hover {
-      background: #a71d2a;
-    }
-
-    .result {
-      margin-top: 10px;
-      font-weight: bold;
-      color: #222;
-    }
-
-    hr {
-      margin: 40px 0;
-    }
-
-    /* =========================
-       Contor caractere
-    ========================= */
-
-    .counter-box textarea{
-      width:100%;
-      height:250px;
-      resize:none;
-      border:none;
-      outline:none;
-      border-radius:12px;
-      padding:15px;
-      font-size:16px;
-      background:#374151;
-      color:white;
-      margin-top:15px;
-      margin-bottom:20px;
-    }
-
-    .stats{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:15px;
-    }
-
-    .card{
-      background:#374151;
-      padding:15px;
-      border-radius:12px;
-      text-align:center;
-    }
-
-    .card h3{
-      font-size:15px;
-      margin-bottom:10px;
-      color:#d1d5db;
-    }
-
-    .card p{
-      font-size:28px;
-      font-weight:bold;
-      color:#60a5fa;
-    }
-
-    @media(max-width:1100px){
-      .layout{
-        flex-direction:column;
-      }
-
-      .right{
-        width:100%;
-        position:relative;
-      }
-    }
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f4; }
+    h2 { color: #333; }
+    label { display: block; margin-top: 20px; }
+    input { padding: 8px; width: 100%; max-width: 300px; margin-top: 5px; }
+    button { margin-top: 10px; margin-right: 5px; padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .reset { background: #dc3545; }
+    .reset:hover { background: #a71d2a; }
+    .result { margin-top: 10px; font-weight: bold; }
+    hr { margin: 40px 0; }
   </style>
 </head>
-
 <body>
 
-<div class="layout">
-
-  <!-- STÂNGA -->
-  <div class="left">
-
-    <!-- Calculator Retineri -->
-    <h2>💰 Calculator Rețineri</h2>
-
-    <label>Suma vânzare:</label>
-    <input type="number" id="vanzare" placeholder="Ex: 248">
-
-    <button onclick="calculeazaFinal()">Calculează net</button>
-    <button class="reset" onclick="resetRetineri()">Reset</button>
-
-    <div class="result" id="rezultatFinal"></div>
-
-    <label>Suma netă dorită:</label>
-    <input type="number" id="net" placeholder="Ex: 224.4">
-
-    <button onclick="calculeazaInvers()">Calculează vânzare</button>
-    <button class="reset" onclick="resetRetineri()">Reset</button>
-
-    <div class="result" id="rezultatInvers"></div>
-
-    <hr>
-
-    <!-- Calculator Vinted -->
-    <h2>🛍️ Calculator Vinted (5% + 3 RON)</h2>
-
-    <label>Suma vânzare:</label>
-    <input type="number" id="vintedVanzare" placeholder="Ex: 100">
-
-    <button onclick="calcVintedFinal()">Calculează net</button>
-    <button class="reset" onclick="resetVinted()">Reset</button>
-
-    <div class="result" id="rezVintedFinal"></div>
-
-    <label>Suma netă dorită:</label>
-    <input type="number" id="vintedNet" placeholder="Ex: 92">
-
-    <button onclick="calcVintedInvers()">Calculează vânzare</button>
-    <button class="reset" onclick="resetVinted()">Reset</button>
-
-    <div class="result" id="rezVintedInvers"></div>
-
-    <hr>
-
-    <!-- Calculator Simplu -->
-    <h2>🧮 Calculator Simplu</h2>
-
-    <label>Introdu o expresie matematică:</label>
-    <input type="text" id="expr" placeholder="Ex: 12 + 5 * 2">
-
-    <button onclick="calculeazaExpresie()">Calculează</button>
-    <button class="reset" onclick="resetSimplu()">Reset</button>
-
-    <div class="result" id="rezultatExpresie"></div>
-
-    <hr>
-
-    <!-- Calculator Procente -->
-    <h2>📊 Calculator Procente</h2>
-
-    <label>Procent (%) dintr-un număr</label>
-    <input type="number" id="proc1" placeholder="Ex: 20">
-    <input type="number" id="nr1" placeholder="Ex: 150">
-
-    <button onclick="calcProcDin()">Calculează</button>
-    <button class="reset" onclick="resetProc1()">Reset</button>
-
-    <div class="result" id="rezProc1"></div>
-
-    <label>X din Y (%)</label>
-    <input type="number" id="nr2" placeholder="Ex: 30">
-    <input type="number" id="nr3" placeholder="Ex: 150">
-
-    <button onclick="calcProcCat()">Calculează</button>
-    <button class="reset" onclick="resetProc2()">Reset</button>
-
-    <div class="result" id="rezProc2"></div>
-
-    <label>Adaugă / Scade procent</label>
-    <input type="number" id="nr4" placeholder="Ex: 100">
-    <input type="number" id="proc2" placeholder="Ex: 10">
-
-    <button onclick="adaugaProc()">Adaugă</button>
-    <button onclick="scadeProc()">Scade</button>
-    <button class="reset" onclick="resetProc3()">Reset</button>
-
-    <div class="result" id="rezProc3"></div>
-
-  </div>
-
-  <!-- DREAPTA -->
-  <div class="right">
-
-    <div class="counter-box">
-      <h2>🔠 Contor Caractere</h2>
-
-      <textarea
-        id="textInput"
-        placeholder="Lipește textul aici..."
-      ></textarea>
-
-      <div class="stats">
-
-        <div class="card">
-          <h3>Total</h3>
-          <p id="totalChars">0</p>
-        </div>
-
-        <div class="card">
-          <h3>Spații</h3>
-          <p id="spaces">0</p>
-        </div>
-
-        <div class="card">
-          <h3>Litere</h3>
-          <p id="letters">0</p>
-        </div>
-
-        <div class="card">
-          <h3>Cifre</h3>
-          <p id="numbers">0</p>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-<script>
-
-  // =========================
-  // Calculator Rețineri
-  // =========================
-
-  function calculeazaFinal() {
-    const x = parseFloat(document.getElementById("vanzare").value);
-
-    if (isNaN(x)) return;
-
-    const rezultat = (0.9048 * x).toFixed(2);
-
-    document.getElementById("rezultatFinal").innerText =
-      "Primești: " + rezultat + " RON";
-  }
-
-  function calculeazaInvers() {
-    const net = parseFloat(document.getElementById("net").value);
-
-    if (isNaN(net)) return;
-
-    const rezultat = (net / 0.9048).toFixed(2);
-
-    document.getElementById("rezultatInvers").innerText =
-      "Trebuie să vinzi cu: " + rezultat + " RON";
-  }
-
-  function resetRetineri() {
-    document.getElementById("vanzare").value = "";
-    document.getElementById("net").value = "";
-
-    document.getElementById("rezultatFinal").innerText = "";
-    document.getElementById("rezultatInvers").innerText = "";
-  }
-
-  // =========================
-  // Calculator Vinted
-  // =========================
-
-  function calcVintedFinal() {
-    const x = parseFloat(document.getElementById("vintedVanzare").value);
-
-    if (isNaN(x)) return;
-
-    const rezultat = x - (x * 0.05) - 3;
-
-    document.getElementById("rezVintedFinal").innerText =
-      "Primești: " + rezultat.toFixed(2) + " RON";
-  }
-
-  function calcVintedInvers() {
-    const net = parseFloat(document.getElementById("vintedNet").value);
-
-    if (isNaN(net)) return;
-
-    const rezultat = (net + 3) / 0.95;
-
-    document.getElementById("rezVintedInvers").innerText =
-      "Trebuie să vinzi cu: " + rezultat.toFixed(2) + " RON";
-  }
-
-  function resetVinted() {
-    document.getElementById("vintedVanzare").value = "";
-    document.getElementById("vintedNet").value = "";
-
-    document.getElementById("rezVintedFinal").innerText = "";
-    document.getElementById("rezVintedInvers").innerText = "";
-  }
-
-  // =========================
-  // Calculator Simplu
-  // =========================
-
-  function calculeazaExpresie() {
-    let expr = document.getElementById("expr").value;
-
-    expr = expr.replace(/,/g, ".");
-
-    if (!/^[0-9+\-*/(). ]+$/.test(expr)) {
-      document.getElementById("rezultatExpresie").innerText =
-        "Expresie invalidă!";
-      return;
+  <h2>Calculator Rețineri</h2>
+
+  <label>Suma vânzare (X):</label>
+  <input type="number" id="vanzare">
+  <button onclick="calculeazaFinal()">Calculează</button>
+  <button class="reset" onclick="resetRetineri()">Reset</button>
+  <div class="result" id="rezultatFinal"></div>
+
+  <label>Suma netă dorită:</label>
+  <input type="number" id="net">
+  <button onclick="calculeazaInvers()">Calculează</button>
+  <button class="reset" onclick="resetRetineri()">Reset</button>
+  <div class="result" id="rezultatInvers"></div>
+
+  <hr>
+
+  <h2>🧮 Calculator Simplu</h2>
+
+  <input type="text" id="expr">
+  <button onclick="calculeazaExpresie()">Calculează</button>
+  <button class="reset" onclick="resetSimplu()">Reset</button>
+  <div class="result" id="rezultatExpresie"></div>
+
+  <hr>
+
+  <h2>📊 Calculator Procente</h2>
+
+  <label>% din număr</label>
+  <input type="number" id="proc1">
+  <input type="number" id="nr1">
+  <button onclick="calcProcDin()">Calculează</button>
+  <button class="reset" onclick="resetProc1()">Reset</button>
+  <div class="result" id="rezProc1"></div>
+
+  <label>X din Y (%)</label>
+  <input type="number" id="nr2">
+  <input type="number" id="nr3">
+  <button onclick="calcProcCat()">Calculează</button>
+  <button class="reset" onclick="resetProc2()">Reset</button>
+  <div class="result" id="rezProc2"></div>
+
+  <label>Adaugă / Scade %</label>
+  <input type="number" id="nr4">
+  <input type="number" id="proc2">
+  <button onclick="adaugaProc()">Adaugă</button>
+  <button onclick="scadeProc()">Scade</button>
+  <button class="reset" onclick="resetProc3()">Reset</button>
+  <div class="result" id="rezProc3"></div>
+
+  <script>
+    function calculeazaFinal() {
+      const x = parseFloat(vanzare.value);
+      if (isNaN(x)) return;
+      rezultatFinal.innerText = (0.9032 * x).toFixed(2) + " lei";
     }
 
-    try {
-      const rezultat =
-        Function('"use strict"; return (' + expr + ')')();
-
-      document.getElementById("rezultatExpresie").innerText =
-        "Rezultat: " + rezultat;
-
-    } catch {
-      document.getElementById("rezultatExpresie").innerText =
-        "Eroare la calcul!";
+    function calculeazaInvers() {
+      const netVal = parseFloat(net.value);
+      if (isNaN(netVal)) return;
+      rezultatInvers.innerText = (netVal / 0.9032).toFixed(2) + " lei";
     }
-  }
 
-  function resetSimplu() {
-    document.getElementById("expr").value = "";
-    document.getElementById("rezultatExpresie").innerText = "";
-  }
+    function calculeazaExpresie() {
+      let expr = document.getElementById("expr").value.replace(/,/g, ".");
+      if (!/^[0-9+\-*/(). ]+$/.test(expr)) {
+        rezultatExpresie.innerText = "Invalid!";
+        return;
+      }
+      try {
+        rezultatExpresie.innerText = Function('"use strict";return ('+expr+')')();
+      } catch {
+        rezultatExpresie.innerText = "Eroare!";
+      }
+    }
 
-  // =========================
-  // Calculator Procente
-  // =========================
+    function calcProcDin() {
+      const p = parseFloat(proc1.value);
+      const n = parseFloat(nr1.value);
+      if (isNaN(p)||isNaN(n)) return;
+      rezProc1.innerText = (p/100*n).toFixed(2);
+    }
 
-  function calcProcDin() {
-    const p = parseFloat(document.getElementById("proc1").value);
-    const n = parseFloat(document.getElementById("nr1").value);
+    function calcProcCat() {
+      const x = parseFloat(nr2.value);
+      const y = parseFloat(nr3.value);
+      if (isNaN(x)||isNaN(y)||y===0) return;
+      rezProc2.innerText = ((x/y)*100).toFixed(2)+"%";
+    }
 
-    if (isNaN(p) || isNaN(n)) return;
+    function adaugaProc() {
+      const n = parseFloat(nr4.value);
+      const p = parseFloat(proc2.value);
+      if (isNaN(n)||isNaN(p)) return;
+      rezProc3.innerText = (n+n*p/100).toFixed(2);
+    }
 
-    const rezultat = (p / 100) * n;
+    function scadeProc() {
+      const n = parseFloat(nr4.value);
+      const p = parseFloat(proc2.value);
+      if (isNaN(n)||isNaN(p)) return;
+      rezProc3.innerText = (n-n*p/100).toFixed(2);
+    }
 
-    document.getElementById("rezProc1").innerText =
-      rezultat.toFixed(2);
-  }
+    // 🔴 RESET FUNCTIONS
+    function resetRetineri() {
+      vanzare.value = "";
+      net.value = "";
+      rezultatFinal.innerText = "";
+      rezultatInvers.innerText = "";
+    }
 
-  function calcProcCat() {
-    const x = parseFloat(document.getElementById("nr2").value);
-    const y = parseFloat(document.getElementById("nr3").value);
+    function resetSimplu() {
+      expr.value = "";
+      rezultatExpresie.innerText = "";
+    }
 
-    if (isNaN(x) || isNaN(y) || y === 0) return;
+    function resetProc1() {
+      proc1.value = "";
+      nr1.value = "";
+      rezProc1.innerText = "";
+    }
 
-    const rezultat = (x / y) * 100;
+    function resetProc2() {
+      nr2.value = "";
+      nr3.value = "";
+      rezProc2.innerText = "";
+    }
 
-    document.getElementById("rezProc2").innerText =
-      rezultat.toFixed(2) + "%";
-  }
-
-  function adaugaProc() {
-    const n = parseFloat(document.getElementById("nr4").value);
-    const p = parseFloat(document.getElementById("proc2").value);
-
-    if (isNaN(n) || isNaN(p)) return;
-
-    const rezultat = n + (n * p / 100);
-
-    document.getElementById("rezProc3").innerText =
-      rezultat.toFixed(2);
-  }
-
-  function scadeProc() {
-    const n = parseFloat(document.getElementById("nr4").value);
-    const p = parseFloat(document.getElementById("proc2").value);
-
-    if (isNaN(n) || isNaN(p)) return;
-
-    const rezultat = n - (n * p / 100);
-
-    document.getElementById("rezProc3").innerText =
-      rezultat.toFixed(2);
-  }
-
-  function resetProc1() {
-    document.getElementById("proc1").value = "";
-    document.getElementById("nr1").value = "";
-    document.getElementById("rezProc1").innerText = "";
-  }
-
-  function resetProc2() {
-    document.getElementById("nr2").value = "";
-    document.getElementById("nr3").value = "";
-    document.getElementById("rezProc2").innerText = "";
-  }
-
-  function resetProc3() {
-    document.getElementById("nr4").value = "";
-    document.getElementById("proc2").value = "";
-    document.getElementById("rezProc3").innerText = "";
-  }
-
-  // =========================
-  // Contor Caractere
-  // =========================
-
-  const textInput = document.getElementById("textInput");
-
-  const totalChars = document.getElementById("totalChars");
-  const spaces = document.getElementById("spaces");
-  const letters = document.getElementById("letters");
-  const numbers = document.getElementById("numbers");
-
-  textInput.addEventListener("input", () => {
-
-    const text = textInput.value;
-
-    totalChars.textContent = text.length;
-
-    const spaceCount = (text.match(/ /g) || []).length;
-    spaces.textContent = spaceCount;
-
-    const letterCount =
-      (text.match(/[a-zA-ZăâîșțĂÂÎȘȚ]/g) || []).length;
-
-    letters.textContent = letterCount;
-
-    const numberCount =
-      (text.match(/[0-9]/g) || []).length;
-
-    numbers.textContent = numberCount;
-  });
-
-</script>
+    function resetProc3() {
+      nr4.value = "";
+      proc2.value = "";
+      rezProc3.innerText = "";
+    }
+  </script>
 
 </body>
 </html>
